@@ -14,7 +14,18 @@ class CreateTasksTable extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('name');
+            $table->longText('proyect_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('days')->unsigned()->nullable();
+            $table->integer('hours')->unsigned()->nullable();
+
+            $table->integer('company_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->foreign('proyect_id')->references('id')->on('projects');
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }

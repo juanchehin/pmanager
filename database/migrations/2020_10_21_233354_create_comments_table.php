@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProyectsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateProyectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('proyects', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id('id');
-            $table->string('name');
-            $table->longText('description')->nullable();
-            $table->integer('company_id')->unsigned()->nullable();
+            $table->longText('body');
+            $table->string('url',255)->nullable();
+
             $table->integer('user_id')->unsigned();
-            $table->integer('days')->unsigned()->nullable();;
+            $table->integer('commentable_id')->unsigned();
+            $table->integer('commentable_type')->unsigned();
+
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('company_id')->references('id')->on('companies');
+
             $table->timestamps();
         });
     }
@@ -33,6 +35,6 @@ class CreateProyectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proyects');
+        Schema::dropIfExists('comments');
     }
 }
